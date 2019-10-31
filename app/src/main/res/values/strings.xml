@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">CalendarApp</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="registerQuestion">Do not have an account?</string>
+    <string name="register">Register</string>
+    <string name="name">Name</string>
+    <string name="passwordAgain">Password Again</string>
+    <string name="loginQuestion">Do you have an account?</string>
 </resources>
