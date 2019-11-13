@@ -1,0 +1,13 @@
+D:\CalendarNETSource\Calendar.NETDemo\bin\Debug\Calendar.NETDemo.exe
+D:\CalendarNETSource\Calendar.NETDemo\bin\Debug\Calendar.NETDemo.pdb
+D:\CalendarNETSource\Calendar.NETDemo\bin\Debug\Calendar.NET.dll
+D:\CalendarNETSource\Calendar.NETDemo\bin\Debug\Calendar.NET.pdb
+D:\CalendarNETSource\Calendar.NETDemo\bin\Debug\Calendar.NET.xml
+D:\CalendarNETSource\Calendar.NETDemo\obj\x86\Debug\Calendar.NETDemo.csprojAssemblyReference.cache
+D:\CalendarNETSource\Calendar.NETDemo\obj\x86\Debug\Calendar.NETDemo.Form1.resources
+D:\CalendarNETSource\Calendar.NETDemo\obj\x86\Debug\Calendar.NETDemo.Properties.Resources.resources
+D:\CalendarNETSource\Calendar.NETDemo\obj\x86\Debug\Calendar.NETDemo.csproj.GenerateResource.cache
+D:\CalendarNETSource\Calendar.NETDemo\obj\x86\Debug\Calendar.NETDemo.csproj.CoreCompileInputs.cache
+D:\CalendarNETSource\Calendar.NETDemo\obj\x86\Debug\Calendar.NETDemo.csproj.CopyComplete
+D:\CalendarNETSource\Calendar.NETDemo\obj\x86\Debug\Calendar.NETDemo.exe
+D:\CalendarNETSource\Calendar.NETDemo\obj\x86\Debug\Calendar.NETDemo.pdb
