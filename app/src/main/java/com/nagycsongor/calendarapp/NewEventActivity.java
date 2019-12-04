@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class NewEventActivity extends AppCompatActivity {
@@ -117,8 +118,38 @@ public class NewEventActivity extends AppCompatActivity {
             descriptionEditText.requestFocus();
             return;
         }
-
-        //Event event = new Event(title,eventDate,,location,description);
+        final Date reminderDate;
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(eventDate);
+        switch (reminder){
+            case "30min":{
+                cal.add(Calendar.MINUTE, -30);
+                break;
+            }
+            case "1hour":{
+                cal.add(Calendar.MINUTE, -60);
+                break;
+            }
+            case "5hour":{
+                cal.add(Calendar.MINUTE, -300);
+                break;
+            }
+            case "1day":{
+                cal.add(Calendar.MINUTE, -1440);
+                break;
+            }
+            case "1week":{
+                cal.add(Calendar.MINUTE, -10080);
+                break;
+            }
+        }
+        try {
+            reminderDate = format.parse(cal.getTime().toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return;
+        }
+        Event event = new Event(title,eventDate,reminderDate,location,description);
 
     }
 }

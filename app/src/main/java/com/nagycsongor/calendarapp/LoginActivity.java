@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -27,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference myRef;
 
+    private  Button btnOK, btnCancel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,16 +44,9 @@ public class LoginActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressbar);
         progressBar.setVisibility(View.GONE);
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                login();
-            }
-        });
-        registerTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { startActivity(new Intent(getApplicationContext(),RegisterActivity.class)); }
-        });
+
+        loginButton.setOnClickListener(v -> login());
+        registerTextView.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(),RegisterActivity.class)));
 
     }
 
@@ -85,18 +80,20 @@ public class LoginActivity extends AppCompatActivity {
         myRef.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                boolean is = false;
+                boolean isUserExist = false;
                 for(DataSnapshot userSnapshot : dataSnapshot.getChildren()){
                     User userExist = userSnapshot.getValue(User.class);
                     if (userExist.getEmail().equals(email) && userExist.getPassword().equals(password)){
                         progressBar.setVisibility(View.VISIBLE);
                         Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                         startActivity(intent);
-                        is = true;
+                        isUserExist = true;
                         break;
+                        // TODO: rewrite code, remove break
+                        // TODO: use map instead of list
                     }
                 }
-                if (!is){
+                if (!isUserExist){
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), "Email and password not match", Toast.LENGTH_SHORT).show();
                 }
@@ -104,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                //;Log.d(TAG, "onCancelled: Why I here?");
             }
         });
     }

@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
         Calendar calendar = Calendar.getInstance();
         events.add(new EventDay(calendar, R.drawable.sample_three_icons));
+
+        // TODO: remove this
 ////or
 //        events.add(new EventDay(calendar, new Drawable()));
 ////or if you want to specify event label color
