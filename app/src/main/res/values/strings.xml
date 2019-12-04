@@ -8,4 +8,11 @@
     <string name="name">Name</string>
     <string name="passwordAgain">Password Again</string>
     <string name="loginQuestion">Do you have an account?</string>
+    <string-array name="reminder">
+        <item>30min</item>
+        <item>1hour</item>
+        <item>5hour</item>
+        <item>1day</item>
+        <item>1week</item>
+    </string-array>
 </resources>
