@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         events.add(new EventDay(calendar, R.drawable.sample_three_icons));
 
         recyclerView = findViewById(R.id.recyclerView);
-        adapter = new HomeEventAdapter();
+        adapter = new HomeEventAdapter(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(adapter);
 
