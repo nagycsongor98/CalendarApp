@@ -19,6 +19,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public class LoginActivity extends AppCompatActivity {
     private TextView emailEditText;
     private TextView passwordEditText;
@@ -83,7 +86,8 @@ public class LoginActivity extends AppCompatActivity {
                 boolean isUserExist = false;
                 for(DataSnapshot userSnapshot : dataSnapshot.getChildren()){
                     User userExist = userSnapshot.getValue(User.class);
-                    if (userExist.getEmail().equals(email) && userExist.getPassword().equals(password)){
+                    String hashPassword = passwordHash(password, email.getBytes());
+                    if (userExist.getEmail().equals(email) && userExist.getPassword().equals(hashPassword)){
                         progressBar.setVisibility(View.VISIBLE);
                         Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                         startActivity(intent);
@@ -110,6 +114,41 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         progressBar.setVisibility(View.GONE);
+    }
+
+    /**
+     * Generate a password hash by using (email as) salt.
+     *
+     * @param password, salt
+     *
+     * @return hashed password
+     */
+    public String passwordHash(String password, byte[] salt) {
+
+        String generatedPassword = null;
+
+        try {
+            // Create MessageDigest instance for MD5
+            MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+            // Add password bytes to digest
+            messageDigest.update(salt);
+            // Get the hash's bytes
+            byte[] bytes = messageDigest.digest(password.getBytes());
+            // This bytes[] has bytes in decimal format;
+            // Convert it to hexadecimal format
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < bytes.length; i++) {
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            // Get complete hashed password in hex format
+            generatedPassword = sb.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        return generatedPassword;
+
     }
 }
 

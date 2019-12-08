@@ -19,6 +19,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public class RegisterActivity extends AppCompatActivity {
     private EditText emailEditText;
     private EditText nameEditText;
@@ -95,7 +98,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         if (passwordAgain.isEmpty())
         {
-            passwordAgainEditText.setError("Passeord again field is empty!");
+            passwordAgainEditText.setError("Password again field is empty!");
             passwordAgainEditText.requestFocus();
             return;
         }
@@ -122,10 +125,12 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 }
                 if (!isUserExist){
+                    String hashPassword = passwordHash(password, email.getBytes());
                     progressBar.setVisibility(View.VISIBLE);
                     String key = myRef.child("Users").push().getKey();
-                    User user = new User(email, name, password);
+                    User user = new User(email, name, hashPassword);
                     myRef.child("Users").child(key).setValue(user);
+//                    myRef.child("Users").child(email).setValue(user);
                     Intent intent = new Intent(RegisterActivity.this,MainActivity.class);
                     startActivity(intent);
                 }
@@ -143,5 +148,40 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         progressBar.setVisibility(View.GONE);
+    }
+
+    /**
+     * Generate a password hash by using (email as) salt.
+     *
+     * @param password, salt
+     *
+     * @return hashed password
+     */
+    public String passwordHash(String password, byte[] salt) {
+
+        String generatedPassword = null;
+
+        try {
+            // Create MessageDigest instance for MD5
+            MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+            // Add password bytes to digest
+            messageDigest.update(salt);
+            // Get the hash's bytes
+            byte[] bytes = messageDigest.digest(password.getBytes());
+            // This bytes[] has bytes in decimal format;
+            // Convert it to hexadecimal format
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < bytes.length; i++) {
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            // Get complete hashed password in hex format
+            generatedPassword = sb.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        return generatedPassword;
+
     }
 }
