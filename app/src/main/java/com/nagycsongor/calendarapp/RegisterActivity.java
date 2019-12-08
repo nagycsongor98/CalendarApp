@@ -53,20 +53,12 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                registering();
-            }
-        });
-        loginTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {  startActivity(new Intent(getApplicationContext(),LoginActivity.class)); }
-        });
+        registerButton.setOnClickListener(v -> registration());
+        loginTextView.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(),LoginActivity.class)));
 
     }
 
-    private void registering() {
+    private void registration() {
 
         final String email = emailEditText.getText().toString().trim();
         final String name = nameEditText.getText().toString().trim();
@@ -119,17 +111,17 @@ public class RegisterActivity extends AppCompatActivity {
         myRef.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                boolean is = false;
+                boolean isUserExist = false;
                 for(DataSnapshot userSnapshot : dataSnapshot.getChildren()){
                     User userExist = userSnapshot.getValue(User.class);
                     if (userExist.getEmail().equals(email)){
                         progressBar.setVisibility(View.GONE);
                         Toast.makeText(RegisterActivity.this, "This email already exists!", Toast.LENGTH_SHORT).show();
-                        is = true;
+                        isUserExist = true;
                         break;
                     }
                 }
-                if (!is){
+                if (!isUserExist){
                     progressBar.setVisibility(View.VISIBLE);
                     String key = myRef.child("Users").push().getKey();
                     User user = new User(email, name, password);

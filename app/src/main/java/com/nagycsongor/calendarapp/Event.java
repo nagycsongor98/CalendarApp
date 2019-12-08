@@ -12,7 +12,7 @@ public class Event {
     private String description;
 
     public Event(){
-
+        // Need to use public empty ctor for firebase.
     }
 
     public Event(String title, Date eventDate, Date reminderDate, String location, String description) {
@@ -24,7 +24,7 @@ public class Event {
         this.invitedFriends = new ArrayList<String>();
     }
 
-    public void addFriend(String friendEmail){
+    public void addFriendByEmail(String friendEmail){
         invitedFriends.add(friendEmail);
     }
 
