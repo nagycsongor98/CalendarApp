@@ -41,10 +41,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // TODO: delete this intent
-
-        startActivity(new Intent(this, NewEventActivity.class));
-
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
 
@@ -102,6 +98,7 @@ public class LoginActivity extends AppCompatActivity {
                         progressBar.setVisibility(View.VISIBLE);
                         mEditor.putString("email", email);
                         mEditor.commit();
+
                         Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                         startActivity(intent);
                         isUserExist = true;

@@ -31,6 +31,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class NewEventActivity extends AppCompatActivity {
+    private static final String TAG = "NewEventActivity";
     private EditText titleEditText;
     private TextView dateTextView;
     private TextView reminderTextView;
@@ -134,6 +135,7 @@ public class NewEventActivity extends AppCompatActivity {
             titleEditText.requestFocus();
             return;
         }
+        Log.i(TAG,title);
 
         //date
         final Date eventDate;
@@ -147,7 +149,9 @@ public class NewEventActivity extends AppCompatActivity {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             eventDate = format.parse(dateString);
-            System.out.println(eventDate);
+            Log.i(TAG,eventDate.toString());
+            //System.out.println(eventDate);
+
         } catch (ParseException e) {
             e.printStackTrace();
             dateTextView.setError("Date field is incorrect!");
@@ -163,24 +167,8 @@ public class NewEventActivity extends AppCompatActivity {
             reminderTextView.requestFocus();
             return;
         }
+        Log.i(TAG,reminder);
 
-        //location
-        final String location = locationEditText.getText().toString();
-        if (location.isEmpty())
-        {
-            locationEditText.setError("Location field is empty!");
-            locationEditText.requestFocus();
-            return;
-        }
-
-        //description
-        final String description = descriptionEditText.getText().toString();
-        if (description.isEmpty())
-        {
-            descriptionEditText.setError("Description field is empty!");
-            descriptionEditText.requestFocus();
-            return;
-        }
         final Date reminderDate;
         Calendar cal = Calendar.getInstance();
         cal.setTime(eventDate);
@@ -206,12 +194,31 @@ public class NewEventActivity extends AppCompatActivity {
                 break;
             }
         }
-        try {
-            reminderDate = format.parse(cal.getTime().toString());
-        } catch (ParseException e) {
-            e.printStackTrace();
+        Log.i(TAG,cal.getTime().toString());
+
+        reminderDate = cal.getTime();
+        Log.i(TAG,reminderDate.toString());
+
+        //location
+        final String location = locationEditText.getText().toString();
+        if (location.isEmpty())
+        {
+            locationEditText.setError("Location field is empty!");
+            locationEditText.requestFocus();
             return;
         }
+        Log.i(TAG,location);
+
+        //description
+        final String description = descriptionEditText.getText().toString();
+        if (description.isEmpty())
+        {
+            descriptionEditText.setError("Description field is empty!");
+            descriptionEditText.requestFocus();
+            return;
+        }
+        Log.i(TAG,description);
+
         Event event = new Event(title,eventDate,reminderDate,location,description);
         String loginEmail = mPreferences.getString("email", "");
         myRef.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -221,8 +228,8 @@ public class NewEventActivity extends AppCompatActivity {
                 for(DataSnapshot userSnapshot : dataSnapshot.getChildren()){
                     User userExist = userSnapshot.getValue(User.class);
                     if (userExist.getEmail().equals(loginEmail)){
-                        String key = myRef.child("Users").child(userSnapshot.getKey()).push().getKey();
-                        myRef.child("Users").child(userSnapshot.getKey()).child(key).setValue(event);
+                        String key = myRef.child("Users").child(userSnapshot.getKey()).child("events").push().getKey();
+                        myRef.child("Users").child(userSnapshot.getKey()).child("events").child(key).setValue(event);
                         Toast.makeText(getApplicationContext(), "Event successfully added!", Toast.LENGTH_SHORT).show();
                         isUserExist = true;
                         break;
