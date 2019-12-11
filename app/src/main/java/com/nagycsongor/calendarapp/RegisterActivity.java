@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +31,8 @@ public class RegisterActivity extends AppCompatActivity {
     private TextView loginTextView;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
+    private SharedPreferences mPreferences;
+    private SharedPreferences.Editor mEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +54,8 @@ public class RegisterActivity extends AppCompatActivity {
         loginTextView = findViewById(R.id.registerLoginTextView);
         progressBar = findViewById(R.id.progressbar);
         progressBar.setVisibility(View.GONE);
-
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mEditor = mPreferences.edit();
 
 
         registerButton.setOnClickListener(v -> registration());
@@ -126,6 +131,8 @@ public class RegisterActivity extends AppCompatActivity {
                     String key = myRef.child("Users").push().getKey();
                     User user = new User(email, name, password);
                     myRef.child("Users").child(key).setValue(user);
+                    mEditor.putString("email", email);
+                    mEditor.commit();
                     Intent intent = new Intent(RegisterActivity.this,MainActivity.class);
                     startActivity(intent);
                 }

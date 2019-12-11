@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -27,12 +29,18 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
+    private SharedPreferences mPreferences;
+    private SharedPreferences.Editor mEditor;
 
     private  Button btnOK, btnCancel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        // TODO: delete this intent
+
+        startActivity(new Intent(this, NewEventActivity.class));
 
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
@@ -43,6 +51,9 @@ public class LoginActivity extends AppCompatActivity {
         registerTextView = findViewById(R.id.loginRegisterTextView);
         progressBar = findViewById(R.id.progressbar);
         progressBar.setVisibility(View.GONE);
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mEditor = mPreferences.edit();
+
 
 
         loginButton.setOnClickListener(v -> login());
@@ -85,6 +96,8 @@ public class LoginActivity extends AppCompatActivity {
                     User userExist = userSnapshot.getValue(User.class);
                     if (userExist.getEmail().equals(email) && userExist.getPassword().equals(password)){
                         progressBar.setVisibility(View.VISIBLE);
+                        mEditor.putString("email", email);
+                        mEditor.commit();
                         Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                         startActivity(intent);
                         isUserExist = true;
