@@ -97,6 +97,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (userExist.getEmail().equals(email) && userExist.getPassword().equals(hashPassword)){
                         progressBar.setVisibility(View.VISIBLE);
                         mEditor.putString("email", email);
+                        mEditor.putString("userKey", userSnapshot.getKey());
                         mEditor.commit();
 
                         Intent intent = new Intent(LoginActivity.this,MainActivity.class);

@@ -14,11 +14,12 @@ import java.util.ArrayList;
 
 class HomeEventAdapter extends RecyclerView.Adapter<HomeEventAdapter.ViewHolder> {
 
-    private ArrayList<String> events = new ArrayList<>();
+    private ArrayList<Event> events = new ArrayList<>();
     private Context context;
 
-    public HomeEventAdapter(Context context) {
+    public HomeEventAdapter(Context context,ArrayList<Event> events) {
         this.context = context;
+        this.events = events;
     }
 
     @NonNull
@@ -31,6 +32,11 @@ class HomeEventAdapter extends RecyclerView.Adapter<HomeEventAdapter.ViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Event event = events.get(position);
+        holder.eventName.setText(event.getTitle());
+        holder.description.setText(event.getDescription());
+        holder.location.setText(event.getLocation());
+//        holder.date.setText(event.getEventDate().toString());
 
     }
 
