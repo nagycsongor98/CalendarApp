@@ -23,17 +23,27 @@
         android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:backgroundTint="#2196f3"
         android:clickable="true"
+        android:textAlignment="center"
+        app:backgroundTint="#2196f3"
+        app:borderWidth="0dp"
+        app:elevation="1dp"
+
+        app:fabSize="mini"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:maxImageSize="@dimen/day_label_focus_size_events_enabled"
+        app:pressedTranslationZ="1dp"
+        app:srcCompat="@drawable/ic_plus_blue" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

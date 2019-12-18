@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -218,6 +219,8 @@ public class NewEventActivity extends AppCompatActivity {
             return;
         }
         Log.i(TAG,description);
+
+
 
         Event event = new Event(title,eventDate,reminderDate,location,description);
         String loginEmail = mPreferences.getString("email", "");

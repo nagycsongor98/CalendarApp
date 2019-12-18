@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 class HomeEventAdapter extends RecyclerView.Adapter<HomeEventAdapter.ViewHolder> {
@@ -36,7 +38,10 @@ class HomeEventAdapter extends RecyclerView.Adapter<HomeEventAdapter.ViewHolder>
         holder.eventName.setText(event.getTitle());
         holder.description.setText(event.getDescription());
         holder.location.setText(event.getLocation());
-//        holder.date.setText(event.getEventDate().toString());
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        String strDate = dateFormat.format(event.getEventDate());
+        holder.date.setText(strDate);
+
 
     }
 

@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import java.util.Calendar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,7 +26,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -68,6 +68,10 @@ public class MainActivity extends AppCompatActivity {
                     for (DataSnapshot dbEvent : dataSnapshot.child("events").getChildren()) {
                         Event event = dbEvent.getValue(Event.class);
                         myEvents.add(event);
+                        Calendar calendar = Calendar.getInstance();
+
+                        calendar.setTime(event.getEventDate());
+                        events.add(new EventDay(calendar,R.drawable.sample_three_icons));
 
 
                     }
@@ -77,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
                     adapter = new HomeEventAdapter(context, myEvents);
                     recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
                     recyclerView.setAdapter(adapter);
+                    calendarView.setEvents(events);
 
 
                 }
@@ -97,8 +102,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        Calendar calendar = Calendar.getInstance();
-        events.add(new EventDay(calendar, R.drawable.sample_three_icons));
 
 
 ////or
@@ -106,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
 ////or if you want to specify event label color
 //        events.add(new EventDay(calendar, R.drawable.sample_three_icons, Color.parseColor("#228B22")));
 //
-        calendarView.setEvents(events);
+
 
     }
 }

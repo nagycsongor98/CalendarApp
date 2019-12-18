@@ -1,0 +1,64 @@
+{
+  "project_info": {
+    "project_number": "486525269017",
+    "firebase_url": "https://calendarapp-61f18.firebaseio.com",
+    "project_id": "calendarapp-61f18",
+    "storage_bucket": "calendarapp-61f18.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:486525269017:android:1980c46756ca19e0d5e688",
+        "android_client_info": {
+          "package_name": "com.nagycsongor.calendarapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "486525269017-5j61aq2au7bff07ai93qmafikjtlqfpo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nagycsongor.calendarapp",
+            "certificate_hash": "1b01ef725b1bcef649f80b52f0a1dae92731aa87"
+          }
+        },
+        {
+          "client_id": "486525269017-67odiucth8bd7eo2q6elf80gqt68guv2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nagycsongor.calendarapp",
+            "certificate_hash": "0cedd913ea1127b9fc22d37b50811fd6b842f066"
+          }
+        },
+        {
+          "client_id": "486525269017-kh5778i5840vnbfkmba9scjq72b163ce.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nagycsongor.calendarapp",
+            "certificate_hash": "04e9b2fa8d4f6f1ba26fca941531315477e3fe93"
+          }
+        },
+        {
+          "client_id": "486525269017-6p5qikpn0s6rtlvjre8u39e1fvnsdsu5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBVSHblDx1e60cg_w18PGyuAf_6NH8zYY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "486525269017-6p5qikpn0s6rtlvjre8u39e1fvnsdsu5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
