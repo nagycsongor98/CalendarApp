@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+
 import java.util.Calendar;
 
 import androidx.annotation.NonNull;
@@ -59,6 +60,29 @@ public class MainActivity extends AppCompatActivity {
         userKey = mPreferences.getString("userKey", "");
         context = this;
 
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), NewEventActivity.class));
+            }
+        });
+
+
+////or
+//        events.add(new EventDay(calendar, new Drawable()));
+////or if you want to specify event label color
+//        events.add(new EventDay(calendar, R.drawable.sample_three_icons, Color.parseColor("#228B22")));
+//
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        myEvents = new ArrayList<>();
+
         if (!userEmail.isEmpty()) {
             myRef.child("Users").child(userKey).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -67,11 +91,12 @@ public class MainActivity extends AppCompatActivity {
 
                     for (DataSnapshot dbEvent : dataSnapshot.child("events").getChildren()) {
                         Event event = dbEvent.getValue(Event.class);
+
                         myEvents.add(event);
                         Calendar calendar = Calendar.getInstance();
 
                         calendar.setTime(event.getEventDate());
-                        events.add(new EventDay(calendar,R.drawable.sample_three_icons));
+                        events.add(new EventDay(calendar, R.drawable.event_dot_blue));
 
 
                     }
@@ -92,23 +117,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), NewEventActivity.class));
-            }
-        });
-
-
-
-
-////or
-//        events.add(new EventDay(calendar, new Drawable()));
-////or if you want to specify event label color
-//        events.add(new EventDay(calendar, R.drawable.sample_three_icons, Color.parseColor("#228B22")));
-//
 
 
     }
