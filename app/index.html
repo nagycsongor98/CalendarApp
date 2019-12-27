@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Calendar</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"/>
+    <style>
+        body{
+            background-image: url(background.jpg);
+            background-size: cover;
+            color: #fff;
+        }
+    </style>
+
+    <link rel="stylesheet" href="styles/all.css">
+       <!-- Compiled and minified CSS -->
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+       <!-- Compiled and minified JavaScript -->
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    
+</head>
+
+<body>
+
+    <div class="app" id="calendar">
+        <div class="left card-panel light-blue darken-4 box">
+            <div class="col 12 l5 offset-12">
+                <form action="">
+                    <div class="input-field">
+                        <input type="text" id="event_name_id" class="validate">
+                        <label for="event_name_id">Event name:</label>
+                    </div>        
+                    <div class="input-field">
+                        <input type="text" id="event_date_id" class="datepicker">
+                        <label for="event_date_id">Chose a date</label>
+                    </div> 
+                    <div class="input-field">
+                        <input type="text" id="event_place_id" class="validate">
+                        <label for="event_place_id">place of the event</label>
+                    </div>
+                    <div class="input-field">
+                            <input type="text" id="event_description_id" class="validate">
+                            <label for="event_description_id">description of event</label>
+                        </div>
+                </form>
+            </div>
+                <button class="btn teal accent-4 add_event_button" type="submit" name="action">Submit
+                </button>
+        </div>
+
+        <div class="calendar disable-selection">
+            <div class="left-side">
+                <div class="current-day text-center">
+                    <h1 class="calendar-left-side-day"></h1>
+                    <div class="calendar-left-side-day-of-week"></div>
+                </div>
+                <div class="current-day-events">
+                    <div>Today's Events:</div>
+                    <ul class="current-day-events-list"></ul>
+                </div>
+                <div class="add-event-day">
+                    <span class="fa fa-plus-circle cursor-pointer add-event-day-field-btn"></span>
+                </div>
+            </div>
+            <div class="right-side">
+                <div class="text-right calendar-change-year">
+                    <div class="calendar-change-year-slider">
+                        <span class="fa fa-caret-left cursor-pointer calendar-change-year-slider-prev"></span>
+                        <span class="calendar-current-year"></span>
+                        <span class="fa fa-caret-right cursor-pointer calendar-change-year-slider-next"></span>
+                    </div>
+                </div>
+                <div class="calendar-month-list">
+                    <ul class="calendar-month"></ul>
+                </div>
+                <div class="calendar-week-list">
+                    <ul class="calendar-week"></ul>
+                </div>
+                <div class="calendar-day-list">
+                    <ul class="calendar-days"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.5.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.5.2/firebase-database.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/7.5.2/firebase-analytics.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+
+  const firebaseConfig = {
+  apiKey: "AIzaSyD9JXrvbpRc5B674cET0RUQeNITVHT11j8",
+  authDomain: "calendarapp-61f18.firebaseapp.com",
+  databaseURL: "https://calendarapp-61f18.firebaseio.com",
+  projectId: "calendarapp-61f18",
+  storageBucket: "calendarapp-61f18.appspot.com",
+  messagingSenderId: "486525269017",
+  appId: "1:486525269017:web:ac9e3f62322fa690d5e688",
+  measurementId: "G-WWFS07MXSP"
+};
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+
+</script>
+
+<script async src="scripts/all.js"></script>
+
+</body>
+</html>
