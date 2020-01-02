@@ -30,6 +30,8 @@ class CALENDAR {
 
         this.eventList = JSON.parse(localStorage.getItem(localStorageName)) || {};
 
+        localStorage.clear();
+
         console.log(this.eventList);
         console.log(this.elements.eventAddBtn);
         console.log(this.elements.days);
@@ -45,7 +47,7 @@ class CALENDAR {
         console.log(localStorage);
         
 
-        //ref.on('value',gotData);
+        ref.on('value',gotData);
         
         this.date = +new Date();
         this.options.maxDays = 37;
@@ -208,9 +210,18 @@ class CALENDAR {
             var description = document.getElementById("event_description_id").value;
             var event = new EVENT(name,date,place,description);
             console.log(event);
+            console.log(event.date)
+            console.log(event.name);
 
-            //this.eventList[event.date].push(event.name);
-            //localStorage.setItem(localStorageName, JSON.stringify(this.eventList));
+            event.date = this.getFormattedDate(new Date(event.date));
+
+            if (!this.eventList[event.date]) 
+                this.eventList[event.date] = [];
+
+            this.eventList[event.date].push(event.name);
+            console.log(this.eventList);
+            localStorage.setItem(localStorageName, JSON.stringify(this.eventList));
+            console.log(localStorage);
             this.drawAll()
         });
 
@@ -276,15 +287,14 @@ class CALENDAR {
 
 
 function gotData(data){
-    var events = data.val();
-    var keys = Object.keys(events);
-    console.log(events[keys].email);
-    console.log(events[keys].events);
-    console.log(events);
-    
-    for(event in events)
+    //in users are the whole data
+    var users = data.val();
+    //keys are used to reffer to a specific user
+    var keys = Object.keys(users);
+
+    for(var i=0; i<keys.length;i++)
     {
-        console.log(event)
+        console.log(users[keys[i]].email)
     }
 
 }
@@ -292,7 +302,10 @@ function gotData(data){
 window.addEventListener('load', function() {
     
     var elems = document.querySelectorAll('.datepicker');
-    var instances = M.Datepicker.init(elems);
+    var instances = M.Datepicker.init(elems,{
+        format:'m/d/yyyy'
+    });
+
   });
 
 (function () {
