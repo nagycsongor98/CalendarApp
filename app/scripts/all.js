@@ -34,18 +34,16 @@ class CALENDAR {
         console.log(this.elements.eventAddBtn);
         console.log(this.elements.days);
         
-        var queryString = decodeURIComponent(window.location.search);
-        queryString = queryString.substring(1);
-        var queries = queryString.split("&");
+        console.log(localStorage);
+        
 
-        console.log(queryString);
-        console.log(queries);
-        
-        
+        console.log(localStorage.getItem("email"));
+        console.log(localStorage.getItem("password"));
 
         var ref = firebase.database().ref("Users");
 
-        var value;
+        console.log(localStorage);
+        
 
         //ref.on('value',gotData);
         
@@ -211,10 +209,6 @@ class CALENDAR {
             var event = new EVENT(name,date,place,description);
             console.log(event);
 
-            //const db = firebase.database().ref();
-
-
-
             //this.eventList[event.date].push(event.name);
             //localStorage.setItem(localStorageName, JSON.stringify(this.eventList));
             this.drawAll()
@@ -280,47 +274,17 @@ class CALENDAR {
     }
 }
 
-function submit(){
-    
-    //var object = JSON.parse(JSON.serialize(event));
-    //console.log(object)
-
-    
-    console.log(db);
-
-    var eventDate = new Date(event.date);
-
-    //firebase.database().ref("Users").child("event").set(event);
-    //localStorage.clear();
-    //console.log(eventDate);
-
-    console.log(this.eventList);
-    
-    this.eventList[event.date].push(event.name);
-
-    console.log(this.eventList);
-    
-
-    localStorage.setItem(localStorageName, JSON.stringify(event));
-
-    this.eventList[event.date].push(fieldValue);
-    localStorage.setItem(localStorageName, JSON.stringify(this.eventList));
-    
-    this.drawAll()
-
-    var localStorageitem = localStorage.getItem(localStorageName);
-    
-    
-}
 
 function gotData(data){
     var events = data.val();
     var keys = Object.keys(events);
-    console.log(events[keys].name);
+    console.log(events[keys].email);
+    console.log(events[keys].events);
+    console.log(events);
+    
     for(event in events)
     {
-        var email =event.name;
-        console.log(email);
+        console.log(event)
     }
 
 }

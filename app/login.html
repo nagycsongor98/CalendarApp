@@ -68,11 +68,47 @@
         </div>
     </div>
 
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.5.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.5.2/firebase-database.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.5.2/firebase-analytics.js"></script>
+
+    <script>
+    // Your web app's Firebase configuration
+
+    const firebaseConfig = {
+    apiKey: "AIzaSyD9JXrvbpRc5B674cET0RUQeNITVHT11j8",
+    authDomain: "calendarapp-61f18.firebaseapp.com",
+    databaseURL: "https://calendarapp-61f18.firebaseio.com",
+    projectId: "calendarapp-61f18",
+    storageBucket: "calendarapp-61f18.appspot.com",
+    messagingSenderId: "486525269017",
+    appId: "1:486525269017:web:ac9e3f62322fa690d5e688",
+    measurementId: "G-WWFS07MXSP"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+
+    </script>
+
     <script>
     
     function login(){
         var email = document.getElementById("email").value;
         var password = document.getElementById("password").value;
+        var datab_ref = firebase.database().ref("Users");
+
+        var user={
+            email: email,
+            password: password
+        }
+
         console.log(email,password);
         if(!email || !password){
             M.toast({html: 'Email or password required', classes: 'rounded'});
@@ -80,8 +116,13 @@
 
         if(email && password){
             if(validateEmail(email)){
-                    var queryString = "?para1=" + email + "&para2=" + password;
-                    window.location.href = "index.html" + queryString;
+                    localStorage.setItem("email",email);
+                    localStorage.setItem("password",password);
+
+                    datab_ref.push(user, function(error){
+                    window.location.href = "index.html";
+                    });
+                   
                 }
             else {
                 M.toast({html: 'Not a valid email', classes: 'rounded'});
