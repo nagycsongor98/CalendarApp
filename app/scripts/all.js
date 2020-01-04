@@ -1,5 +1,10 @@
 const AVAILABLE_WEEK_DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const localStorageName = 'calendar-events';
+const ref = firebase.database().ref("Users");
+
+var event;
+var eventfromDB=new Array(0);
+
 
 class EVENT{
     constructor(name, date, place, description){
@@ -30,27 +35,18 @@ class CALENDAR {
 
         this.eventList = JSON.parse(localStorage.getItem(localStorageName)) || {};
 
-        localStorage.clear();
-
         console.log(this.eventList);
-        console.log(this.elements.eventAddBtn);
-        console.log(this.elements.days);
-        
-        console.log(localStorage);
-        
-
-        console.log(localStorage.getItem("email"));
-        console.log(localStorage.getItem("password"));
-
-        var ref = firebase.database().ref("Users");
-
-        console.log(localStorage);
-        
-
-        ref.on('value',gotData);
         
         this.date = +new Date();
         this.options.maxDays = 37;
+
+        ref.once('value',this.gotEvents);
+
+        console.log(eventfromDB);
+
+        this.populateEvents();
+
+        this.drawEvents();
         this.init();
     }
 
@@ -71,16 +67,24 @@ class CALENDAR {
         this.drawYearAndCurrentDay();
         this.drawEvents();
 
+        console.log(this.eventList);
+
     }
 
     drawEvents() {
         let calendar = this.getCalendar();
         let eventList = this.eventList[calendar.active.formatted] || ['You have no event today'];
+
         let eventTemplate = "";
         eventList.forEach(item => {
-            eventTemplate += `<li>${item}</li>`;
+                if(item!='You have no event today'){
+                    eventTemplate += `<li>${"Name:" + item.name + "<br />" + "Place:" + item.place + "<br />"+ "Description:" + item.description}</li>`;
+                }
+                else {
+                    eventTemplate+= `<li>${item}</li>`
+                }
         });
-
+    
         this.elements.eventList.innerHTML = eventTemplate;
     }
 
@@ -165,6 +169,70 @@ class CALENDAR {
         this.elements.week.innerHTML = weekTemplate;
     }
 
+    pushEvent(data){
+        //in users are the whole data
+        var users = data.val();
+        //keys are used to reffer to a specific user
+        var keys = Object.keys(users);    
+
+        for(var i=0; i<keys.length;i++)
+        {
+            if(users[keys[i]].email == localStorage.getItem("email")){
+                ref.child(keys[i]).child("events").push(event);
+                
+            }
+        }
+    
+    }
+
+    gotEvents(data){
+        var users = data.val();
+
+        var keys = Object.keys(users);
+
+        var _this =this;
+        var array=[];
+
+        for(var i=0; i<keys.length;i++)
+        {
+            if(users[keys[i]].email == localStorage.getItem("email")){
+                var eventRefference = ref.child(keys[i]+"/events")
+
+                eventRefference.on("value",function(dataSnapshot){
+                    dataSnapshot.forEach(function(child) {
+                        var singleEvent = child.val();   
+                        array.push(singleEvent);
+                        console.log(array);
+                        console.log(array.length);
+                        //console.log(_this.eventList);
+                        
+                        /*eventfromDB.push({
+                            name:singleEvent.name,
+                            date:singleEvent.date,
+                            place:singleEvent.place,
+                            description:singleEvent.description
+                        });*/                
+                      });
+                });             
+            }
+        }
+        console.log(array.length);
+        
+    }
+
+    populateEvents(){
+
+        console.log(eventfromDB);
+        console.log(eventfromDB.length);
+
+        for(var i=0;i<eventfromDB.length;i++)
+        {
+            console.log(eventfromDB[i].date);
+            this.eventList[eventfromDB[i].date].push(eventfromDB[i]);
+            localStorage.setItem(localStorageName, JSON.stringify(this.eventList));
+        }
+    }
+
     // Service methods
     eventsTrigger() {
         this.elements.prevYear.addEventListener('click', () => {
@@ -192,7 +260,7 @@ class CALENDAR {
 
         this.elements.days.addEventListener('click', e => {
             console.log("bejon");
-            
+            console.log(this.eventList)
             let element = e.srcElement;
             let day = element.getAttribute('data-day');
             let month = element.getAttribute('data-month');
@@ -208,20 +276,19 @@ class CALENDAR {
             var date = document.getElementById("event_date_id").value;
             var place = document.getElementById("event_place_id").value;
             var description = document.getElementById("event_description_id").value;
-            var event = new EVENT(name,date,place,description);
-            console.log(event);
-            console.log(event.date)
-            console.log(event.name);
+            event = new EVENT(name,date,place,description);
 
             event.date = this.getFormattedDate(new Date(event.date));
 
             if (!this.eventList[event.date]) 
                 this.eventList[event.date] = [];
 
-            this.eventList[event.date].push(event.name);
-            console.log(this.eventList);
+            this.eventList[event.date].push(event);
             localStorage.setItem(localStorageName, JSON.stringify(this.eventList));
             console.log(localStorage);
+        
+            ref.once('value',this.pushEvent);
+
             this.drawAll()
         });
 
@@ -283,21 +350,10 @@ class CALENDAR {
     getFirstElementInsideIdByClassName(className) {
         return document.getElementById(this.options.id).getElementsByClassName(className)[0];
     }
+
+    
 }
 
-
-function gotData(data){
-    //in users are the whole data
-    var users = data.val();
-    //keys are used to reffer to a specific user
-    var keys = Object.keys(users);
-
-    for(var i=0; i<keys.length;i++)
-    {
-        console.log(users[keys[i]].email)
-    }
-
-}
 
 window.addEventListener('load', function() {
     
@@ -309,8 +365,15 @@ window.addEventListener('load', function() {
   });
 
 (function () {
+
+    email= localStorage.getItem("email");
+    password= localStorage.getItem("password");
+    
+    localStorage.clear();
+    localStorage.setItem("email",email);
+    localStorage.setItem("password",password);
     new CALENDAR({
-        id: "calendar"
+        id: "calendar",
     })
 
     

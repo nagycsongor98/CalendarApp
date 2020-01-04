@@ -91,7 +91,7 @@ div.calendar disable-selection {
     background: #01579B;
     float: left; }
   .calendar .current-day, .calendar .current-day-events {
-    padding-top: 40px; }
+    padding-top: 5px; }
   .calendar .current-day-events {
     height: 215px; }
   .calendar .current-day-events ul {
